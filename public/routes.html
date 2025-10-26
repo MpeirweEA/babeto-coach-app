@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <title>ROUTES FOR BABETO COACH SERVICES</title> -->
+   <title>Routes – BABETO COACH SERVICES</title>
+  <meta name="description" content="Explore bus routes between Juba, Kampala, and Nairobi. Daily and weekly departures with seat selection and mobile payments.">
+  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bus-background">
+  <header>
+    <img src="ba_logo.PNG" alt="BABETO Logo" class="logo" />
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="routes.html">Routes</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="login.html">Login/Register</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Book Your Journey Across East Africa</h1>
+    <p>Comfortable, reliable travel from Juba to Kampala to Nairobi</p>
+    
+    <!-- route details -->
+     <!-- routes.html -->
+    <section class="routes">
+      <h2>Explore Our Routes</h2>
+      <div class="route-card">
+        <h3>Juba → Kampala</h3>
+        <p>Daily | 12 hrs | From UGX 80,000</p>
+        <button onclick="bookRoute('Juba', 'Kampala')">Book Now</button>
+      </div>
+      <div class="route-card">
+        <h3>Kampala → Nairobi</h3>
+        <p>Daily | 13 hrs | From UGX 90,000</p>
+        <button onclick="bookRoute('Kampala', 'Nairobi')">Book Now</button>
+      </div>
+      <div class="route-card">
+        <h3>Juba → Nairobi</h3>
+        <p>3x/week | 20 hrs | From UGX 150,000</p>
+        <button onclick="bookRoute('Juba', 'Nairobi')">Book Now</button>
+      </div>
+      <div class="route-card">
+        <h3>Nairobi → Juba</h3>
+        <p>3x/week | 20 hrs | From UGX 150,000</p>
+        <button onclick="bookRoute('Nairobi', 'Juba')">Book Now</button>
+      </div>
+      <div class="route-card">
+        <h3>Nairobi → Kampala</h3>
+        <p>3x/week | 20 hrs | From UGX 150,000</p>
+        <button onclick="bookRoute('Nairobi', 'Kampala')">Book Now</button>
+      </div>
+      <div class="route-card">
+        <h3>Kampala → Juba</h3>
+        <p>3x/week | 20 hrs | From UGX 150,000</p>
+        <button onclick="bookRoute('Kampala', 'Juba')">Book Now</button>
+      </div>
+    </section>
+  </section>
+
+  <section class="features">
+    <ul>
+      <li>✅ Easy Mobile Money & Visa Payments</li>
+      <li>✅ Choose Your Seat on a 62-Seater Coach</li>
+      <li>✅ Track Your Route with Live Maps</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 BABETO COACH SERVICES. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Babeto Dashboard</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="dashboard.html" class="logo">Babeto Coach</a>
+      <ul class="nav-links">
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="dashboard">
+    <h1>Welcome to Babeto Coach Dashboard</h1>
+    <div id="user-info"></div>
+
+    <div class="section">
+      <h3>Your Bookings</h3>
+      <ul id="bookings-list"></ul>
+    </div>
+
+    <div class="section">
+      <h3>Fleet Overview</h3>
+      <ul id="fleet-list"></ul>
+    </div>
+
+    <div class="section">
+        <h3>Create a Booking</h3>
+        <form id="bookingForm">
+          <label for="origin">Departure:</label>
+          <select id="origin" required>
+            <option value="">Select city</option>
+            <option value="Juba">Juba</option>
+            <option value="Kampala">Kampala</option>
+            <option value="Nairobi">Nairobi</option>
+          </select>
+
+          <label for="destination">Destination:</label>
+          <select id="destination" required>
+            <option value="">Select city</option>
+            <option value="Juba">Juba</option>
+            <option value="Kampala">Kampala</option>
+            <option value="Nairobi">Nairobi</option>
+          </select>
+
+          <label for="date">Travel Date:</label>
+          <input type="date" id="date" required>
+
+          <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      alert('You must log in first');
+      window.location.href = '/login.html';
+    }
+
+    // Fetch user info
+    fetch('http://localhost:3000/api/profile', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('user-info').innerText =
+        `Hello ${data.name}, your email is ${data.email}`;
+    });
+
+    // Fetch bookings
+  function loadBookings() {
+    fetch('http://localhost:3000/api/bookings', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(bookings => {
+      const list = document.getElementById('bookings-list');
+      // item.innerHTML = `
+      // <strong>${b.date}</strong><br>
+      // <span>From <em>${b.origin}</em> to <em>${b.destination}</em></span>
+      // `;
+      bookings.forEach(b => {
+        const item = document.createElement('li');
+        item.textContent = `From ${b.origin} to ${b.destination} on ${b.date}`;
+        list.appendChild(item);
+      });
+    });
+  }
+
+    // Fetch fleet data
+    fetch('http://localhost:3000/api/fleet', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => res.json())
+    .then(fleet => {
+      const list = document.getElementById('fleet-list');
+      fleet.forEach(bus => {
+        const item = document.createElement('li');
+        item.textContent = `${bus.plate} - ${bus.model} (${bus.status})`;
+        list.appendChild(item);
+      });
+    });
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = '/login.html';
+    }
+
+  
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const origin = document.getElementById('origin').value;
+      const destination = document.getElementById('destination').value;
+      const date = document.getElementById('date').value;
+
+      fetch('http://localhost:3000/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ origin, destination, date })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message || 'Booking created!');
+        document.getElementById('bookingForm').reset();
+        loadBookings(); // ✅ Refresh the list
+      })
+      .catch(err => {
+        alert('Booking failed');
+        console.error(err);
+      });
+    });
+
+    // document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    //   e.preventDefault();
+
+    //   const origin = document.getElementById('origin').value;
+    //   const destination = document.getElementById('destination').value;
+    //   const date = document.getElementById('date').value;
+
+    //   fetch('http://localhost:3000/api/bookings', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${token}`
+    //     },
+    //     body: JSON.stringify({ origin, destination, date })
+    //   })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     alert(data.message || 'Booking created!');
+    //     document.getElementById('bookingForm').reset();
+    //     loadBookings(); // ✅ Refresh the list
+    //   })
+    //   .catch(err => {
+    //     alert('Booking failed');
+    //     console.error(err);
+    //   });
+    // });
+
+  </script>
+</body>
+</html>
